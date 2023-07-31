@@ -1,0 +1,47 @@
+.li {
+  padding: 0.5rem 1rem;
+  list-style-type: none;
+}
+
+.li .measurements-list div:nth-child(odd) {
+  background-color: #f4f4f4;
+}
+
+.li .measurements-list {
+  padding-left: 20px;
+}
+
+.li:hover {
+  cursor: pointer;
+}
+
+.graph-container {
+  max-height: 0;
+  opacity: 0;
+  overflow-y: hidden;
+  transition: all 0.5s ease-out;
+}
+
+.graph-container.graph-container-expand {
+  max-height: 400px;
+  opacity: 1;
+  transition: all 0.5s ease-in;
+}
+
+.graph-toggle {
+  background-color: #dfdaf5;
+  width: 100%;
+  height: 30px;
+}
+
+.graph-toggle-label {
+  padding-left: 10px;
+  line-height: 30px;
+  font-weight: bold;
+}
+
+.variable-label {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: bold;
+}
