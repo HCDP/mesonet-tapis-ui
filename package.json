@@ -1,6 +1,7 @@
 {
   "name": "tapis-ui-cra",
   "version": "0.1.0",
+  "homepage: "https://hcdp.github.io/mesonet-tapis-ui",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
