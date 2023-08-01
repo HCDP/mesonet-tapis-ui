@@ -1,7 +1,6 @@
 {
   "name": "tapis-ui-cra",
   "version": "0.1.0",
-  "homepage": "https://hcdp.github.io/mesonet-tapis-ui",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
@@ -45,6 +44,7 @@
     "web-vitals": "^1.1.2",
     "yup": "^0.32.11"
   },
+  "homepage": "https://hcdp.github.io/mesonet-tapis-ui/",
   "scripts": {
     "start": "CHOKIDAR_USEPOLLING=true react-scripts start",
     "build": "react-scripts build",
