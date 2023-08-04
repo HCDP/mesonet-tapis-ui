@@ -18,9 +18,6 @@ const Router: React.FC = () => {
 
   return (
     <Switch>
-      <Route exact path="/">
-        <Dashboard />
-      </Route>
       <Route path="/login">
         <Login />
       </Route>
@@ -53,6 +50,7 @@ const Router: React.FC = () => {
         <SectionHeader>UI Patterns</SectionHeader>
         <UIPatterns />
       </Route>
+      <Redirect path="*" to="/streams"></Redirect>
     </Switch>
   );
 };
