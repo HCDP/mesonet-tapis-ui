@@ -1,16 +1,9 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { SectionHeader, ProtectedRoute } from 'tapis-ui/_common';
+import { ProtectedRoute } from 'tapis-ui/_common';
 import { useLogin } from 'tapis-hooks/authenticator';
 
-import Apps from '../Apps';
 import Login from '../Login';
-import Dashboard from '../Dashboard';
-import Jobs from '../Jobs';
-import Systems from '../Systems';
-import Files from '../Files';
-import Workflows from '../Workflows';
-import UIPatterns from '../UIPatterns';
 import Streams from '../Streams';
 
 const Router: React.FC = () => {
@@ -28,29 +21,10 @@ const Router: React.FC = () => {
           return <Redirect to="/login" />;
         }}
       />
-      <ProtectedRoute path="/systems">
-        <Systems />
-      </ProtectedRoute>
-      <ProtectedRoute path="/apps">
-        <Apps />
-      </ProtectedRoute>
-      <ProtectedRoute path="/jobs">
-        <Jobs />
-      </ProtectedRoute>
-      <ProtectedRoute path="/files">
-        <Files />
-      </ProtectedRoute>
-      <ProtectedRoute path="/streams">
+      <ProtectedRoute path="/mesonet">
         <Streams />
       </ProtectedRoute>
-      <ProtectedRoute path="/workflows">
-        <Workflows />
-      </ProtectedRoute>
-      <Route path="/uipatterns">
-        <SectionHeader>UI Patterns</SectionHeader>
-        <UIPatterns />
-      </Route>
-      <Redirect path="*" to="/streams"></Redirect>
+      <Redirect path="*" to="/mesonet"></Redirect>
     </Switch>
   );
 };
