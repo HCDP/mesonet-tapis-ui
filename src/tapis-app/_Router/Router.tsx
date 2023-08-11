@@ -7,20 +7,12 @@ import Login from '../Login';
 import Streams from '../Streams';
 
 const Router: React.FC = () => {
-  const { logout } = useLogin();
-
   return (
     <Switch>
       <Route path="/login">
         <Login />
       </Route>
-      <Route
-        path="/logout"
-        render={() => {
-          logout();
-          return <Redirect to="/login" />;
-        }}
-      />
+
       <ProtectedRoute path="/mesonet">
         <Streams />
       </ProtectedRoute>
