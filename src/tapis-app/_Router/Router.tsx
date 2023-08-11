@@ -1,8 +1,6 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { ProtectedRoute } from 'tapis-ui/_common';
-import { useLogin } from 'tapis-hooks/authenticator';
-
 import Login from '../Login';
 import Streams from '../Streams';
 
@@ -12,7 +10,6 @@ const Router: React.FC = () => {
       <Route path="/login">
         <Login />
       </Route>
-
       <ProtectedRoute path="/mesonet">
         <Streams />
       </ProtectedRoute>

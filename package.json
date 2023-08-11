@@ -46,7 +46,7 @@
   },
   "homepage": "https://hcdp.github.io/mesonet-tapis-ui/",
   "scripts": {
-    "start": "CHOKIDAR_USEPOLLING=true react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "TZ=UTC react-scripts test",
     "eject": "react-scripts eject",

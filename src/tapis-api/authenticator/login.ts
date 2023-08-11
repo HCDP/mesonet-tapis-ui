@@ -1,7 +1,6 @@
-import { Authenticator, Tokens } from '@tapis/tapis-typescript';
+import { Tokens } from '@tapis/tapis-typescript';
 import { apiGenerator, errorDecoder } from 'tapis-api/utils';
 
-// This helper takes the username and password and assembles an API call
 const login = (
   basePath: string
 ): Promise<Tokens.RespRefreshToken> => {
@@ -19,7 +18,12 @@ const login = (
     null
   );
 
-  return errorDecoder(() => api.refreshToken(request));
+  async function performLogin() {
+    const response = await errorDecoder(() => api.refreshToken(request));
+    return response;
+  }
+
+  return performLogin();
 };
 
 export default login;

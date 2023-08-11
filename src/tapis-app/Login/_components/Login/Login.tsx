@@ -1,38 +1,24 @@
-import React from 'react';
-// import { Button } from 'reactstrap';
+import React, { useEffect } from 'react';
 import { useLogin } from 'tapis-hooks/authenticator';
 import { Redirect } from 'react-router-dom';
-// import { useTapisConfig } from 'tapis-hooks/context';
-// import { FormikInput } from 'tapis-ui/_common';
-// import { SubmitWrapper } from 'tapis-ui/_wrappers';
-// import { Formik, Form } from 'formik';
-// import * as Yup from 'yup';
+import { QueryWrapper } from 'tapis-ui/_wrappers';
 
 const Login: React.FC = () => {
-  const { login, isLoading, error } = useLogin();
-  login("test", "test");
-//   const { accessToken } = useTapisConfig();
-
-//   const onSubmit = ({
-//     username,
-//     password,
-//   }: {
-//     username: string;
-//     password: string;
-//   }) => login(username, password);
-
-//   const loginSchema = Yup.object({
-//     username: Yup.string().required(),
-//     password: Yup.string().required(),
-//   });
-
-//   const initialValues = {
-//     username: '',
-//     password: '',
-//   };
+  const { login, isLoading, error, isSuccess } = useLogin();
+  
+  useEffect(() => {
+    console.log("logging in");
+    login();
+    return () => {
+    };
+  // eslint-disable-next-line
+  }, []);
 
   return (
-    <Redirect to="/mesonet"></Redirect>
+      <QueryWrapper isLoading={isLoading} error={error}>
+        {isSuccess && <Redirect to="/mesonet"></Redirect>}
+        <div>Test</div>
+      </QueryWrapper>
   );
 };
 

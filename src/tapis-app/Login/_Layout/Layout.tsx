@@ -16,7 +16,7 @@ const Layout: React.FC = () => {
 
   return (
     <>
-      <SectionHeader>Login</SectionHeader>
+      <SectionHeader>Stations</SectionHeader>
       <div className="container">
         <TapisLogin />
       </div>
