@@ -1,5 +1,4 @@
 import React from 'react';
-import { Sidebar } from 'tapis-app/_components';
 import { Router } from 'tapis-app/_Router';
 import { PageLayout } from 'tapis-ui/_common';
 import { NotificationsProvider } from 'tapis-app/_components/Notifications';
@@ -29,7 +28,7 @@ const Layout: React.FC = () => {
           minHeight: '100vh',
         }}
       >
-        <PageLayout top={header} left={<Sidebar />} right={workbenchContent} />
+        <PageLayout top={header}  right={workbenchContent} />
       </div>
     </NotificationsProvider>
   );

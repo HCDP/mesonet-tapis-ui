@@ -18,9 +18,6 @@ const Sidebar: React.FC = () => {
             <NavItem to="/streams" icon="project">
               Streams
             </NavItem>
-            <NavItem to="/logout" icon="user">
-              Logout
-            </NavItem>
           </>
         )}
       </Navbar>
