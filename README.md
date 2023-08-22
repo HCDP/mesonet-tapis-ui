@@ -1,5 +1,8 @@
 # Getting Started with Create React App
 
+Note: The project_id and refresh_token, can be updated via the config.json file
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
