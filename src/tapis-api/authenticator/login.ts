@@ -1,29 +1,30 @@
-import { Authenticator } from '@tapis/tapis-typescript';
+import { Tokens } from '@tapis/tapis-typescript';
 import { apiGenerator, errorDecoder } from 'tapis-api/utils';
+import config from './config.json';
 
-// This helper takes the username and password and assembles an API call
 const login = (
-  username: string,
-  password: string,
   basePath: string
-): Promise<Authenticator.RespCreateToken> => {
-  const reqCreateToken: Authenticator.ReqCreateToken = {
-    username,
-    password,
-    grant_type: 'password',
+): Promise<Tokens.RespRefreshToken> => {
+  const reqRefreshToken: Tokens.ReqRefreshToken = {
+    refresh_token: config.refresh_token
   };
-  const request: Authenticator.CreateTokenRequest = {
-    reqCreateToken,
+  const request: Tokens.RefreshTokenRequest = {
+    reqRefreshToken,
   };
 
-  const api: Authenticator.TokensApi = apiGenerator<Authenticator.TokensApi>(
-    Authenticator,
-    Authenticator.TokensApi,
+  const api: Tokens.TokensApi = apiGenerator<Tokens.TokensApi>(
+    Tokens,
+    Tokens.TokensApi,
     basePath,
     null
   );
 
-  return errorDecoder(() => api.createToken(request));
+  async function performLogin() {
+    const response = await errorDecoder(() => api.refreshToken(request));
+    return response;
+  }
+
+  return performLogin();
 };
 
 export default login;

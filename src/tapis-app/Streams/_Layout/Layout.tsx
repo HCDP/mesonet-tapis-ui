@@ -1,11 +1,12 @@
 import React from 'react';
-import Projects from '../Projects';
+import Sites from '../Sites';
 import { Breadcrumbs, PageLayout, LayoutHeader } from 'tapis-ui/_common';
 import { useLocation } from 'react-router';
 import breadcrumbsFromPathname from 'tapis-ui/_common/Breadcrumbs/breadcrumbsFromPathname';
 import styles from './Layout.module.scss';
+import config from './config.json';
 
-const pathTypes = ['Projects', 'Sites', 'Instruments'];
+const pathTypes = ['Stations', 'Data Types', 'Data Types'];
 
 const Layout: React.FC = () => {
   const { pathname } = useLocation();
@@ -23,7 +24,7 @@ const Layout: React.FC = () => {
     </LayoutHeader>
   );
 
-  const body = <Projects />;
+  const body = <Sites projectId={config.project_id} />;
 
   return <PageLayout top={header} left={body} />;
 };

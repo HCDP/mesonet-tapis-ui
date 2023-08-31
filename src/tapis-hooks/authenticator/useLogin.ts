@@ -1,19 +1,19 @@
 import { useMutation } from 'react-query';
-import { Authenticator } from '@tapis/tapis-typescript';
+import { Tokens } from '@tapis/tapis-typescript';
 import { login } from 'tapis-api/authenticator';
 import { useTapisConfig } from 'tapis-hooks';
-import QueryKeys from './queryKeys';
 
-type LoginHookParams = {
-  username: string;
-  password: string;
-};
+// type LoginHookParams = {
+//   username: string;
+//   password: string;
+// };
 
 const useLogin = () => {
+
   const { setAccessToken, basePath } = useTapisConfig();
 
   // On successful login, save the token to the TapisContext state
-  const onSuccess = (response: Authenticator.RespCreateToken) => {
+  const onSuccess = (response: Tokens.RespRefreshToken) => {
     setAccessToken(response?.result?.access_token);
   };
 
@@ -23,12 +23,11 @@ const useLogin = () => {
   // In this case, loginHelper is called to perform the operation, with an onSuccess callback
   // passed as an option
   const { mutate, isLoading, isError, isSuccess, error } = useMutation<
-    Authenticator.RespCreateToken,
-    Error,
-    LoginHookParams
+    Tokens.RespRefreshToken,
+    Error
   >(
-    [QueryKeys.login, basePath],
-    ({ username, password }) => login(username, password, basePath),
+    [basePath],
+    () => login(basePath),
     { onSuccess }
   );
 
@@ -38,9 +37,9 @@ const useLogin = () => {
     isError,
     isSuccess,
     error,
-    login: (username: string, password: string) => {
+    login: () => {
       // Call mutate to trigger a single post-like API operation
-      return mutate({ username, password });
+      return mutate();
     },
     logout: () => setAccessToken(null),
   };
