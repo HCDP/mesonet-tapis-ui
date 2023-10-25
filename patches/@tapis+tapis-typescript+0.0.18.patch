@@ -1,0 +1,50 @@
+diff --git a/node_modules/@tapis/tapis-typescript/dist/index.d.ts b/node_modules/@tapis/tapis-typescript/dist/index.d.ts
+index dd76de4..d734961 100644
+--- a/node_modules/@tapis/tapis-typescript/dist/index.d.ts
++++ b/node_modules/@tapis/tapis-typescript/dist/index.d.ts
+@@ -6,4 +6,5 @@ import * as Apps from '@tapis/tapis-typescript-apps';
+ import * as Jobs from '@tapis/tapis-typescript-jobs';
+ import * as Streams from '@tapis/tapis-typescript-streams';
+ import * as Workflows from '@tapis/tapis-typescript-workflows';
+-export { Authenticator, Systems, Tenants, Files, Apps, Jobs, Streams, Workflows };
++import * as Tokens from '@tapis/tapis-typescript-tokens';
++export { Authenticator, Systems, Tenants, Files, Apps, Jobs, Streams, Workflows, Tokens };
+diff --git a/node_modules/@tapis/tapis-typescript/dist/index.js b/node_modules/@tapis/tapis-typescript/dist/index.js
+index 1f3a132..1597f6c 100644
+--- a/node_modules/@tapis/tapis-typescript/dist/index.js
++++ b/node_modules/@tapis/tapis-typescript/dist/index.js
+@@ -16,3 +16,5 @@ var Streams = require("@tapis/tapis-typescript-streams");
+ exports.Streams = Streams;
+ var Workflows = require("@tapis/tapis-typescript-workflows");
+ exports.Workflows = Workflows;
++var Tokens = require("@tapis/tapis-typescript-tokens");
++exports.Tokens = Tokens;
+diff --git a/node_modules/@tapis/tapis-typescript/src/index.ts b/node_modules/@tapis/tapis-typescript/src/index.ts
+index e9cedb7..69572a6 100644
+--- a/node_modules/@tapis/tapis-typescript/src/index.ts
++++ b/node_modules/@tapis/tapis-typescript/src/index.ts
+@@ -6,6 +6,7 @@ import * as Apps from '@tapis/tapis-typescript-apps';
+ import * as Jobs from '@tapis/tapis-typescript-jobs';
+ import * as Streams from '@tapis/tapis-typescript-streams';
+ import * as Workflows from '@tapis/tapis-typescript-workflows';
++import * as Tokens from '@tapis/tapis-typescript-tokens';
+ 
+ /*
+ import * as Actors from '@tapis/tapis-typescript-actors';
+@@ -23,12 +24,13 @@ export {
+   Apps,
+   Jobs,
+   Streams,
+-  Workflows
++  Workflows,
++  Tokens
+   /*
+   Actors,
+   Meta,
+   PGRest,
+   SK,
+-  Tokens
++  
+   */
+ }
+\ No newline at end of file
