@@ -53,7 +53,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint --max-warnings=0 . && prettier --single-quote --check src",
     "prettier": "prettier --single-quote --write .",
-    "gh-pages": "react-scripts build && gh-pages -d build"
+    "gh-pages": "react-scripts build && gh-pages -d build",
+    "postinstall": "patch-package"
   },
   "eslintConfig": {
     "extends": [
