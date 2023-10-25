@@ -46,7 +46,7 @@
     "web-vitals": "^1.1.2",
     "yup": "^0.32.11"
   },
-  "homepage": "https://hcdp.github.io/mesonet-tapis-ui/",
+  "homepage": "http://149.165.152.187:8080",
   "scripts": {
     "start": "CHOKIDAR_USEPOLLING=true react-scripts start",
     "build": "react-scripts build",
