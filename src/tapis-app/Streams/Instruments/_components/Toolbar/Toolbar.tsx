@@ -46,6 +46,15 @@ const Toolbar: React.FC<{
     setOffsetInput(value?.toString() || '');
     setOffset(value);
   };
+  
+  const Button: React.FC<{
+    onClick: () => void;
+    text: String;
+  }> = ({ onClick, text }) => {
+    return (
+      <button className={styles['button']} onClick={onClick}>{text}</button>
+    );
+  }
 
   return (
     <div className={styles['control-bar']}>
@@ -85,6 +94,7 @@ const Toolbar: React.FC<{
           />
         </div>
       </div>
+      <Button onClick={() => setEnd(new Date())} text="Refresh Latest Data" />
     </div>
   );
 };
