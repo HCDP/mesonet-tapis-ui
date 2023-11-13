@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import styles from './Toolbar.module.scss';
+import Button from 'tapis-app/_components/Button';
 
 const Toolbar: React.FC<{
   start: Date | undefined;
@@ -47,15 +48,6 @@ const Toolbar: React.FC<{
     setOffset(value);
   };
   
-  const Button: React.FC<{
-    onClick: () => void;
-    text: String;
-  }> = ({ onClick, text }) => {
-    return (
-      <button className={styles['button']} onClick={onClick}>{text}</button>
-    );
-  }
-
   return (
     <div className={styles['control-bar']}>
       <div className={styles['control']}>
