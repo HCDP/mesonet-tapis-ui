@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './Layout.module.scss';
 import { QueryWrapper } from 'tapis-ui/_wrappers';
 import { Streams } from '@tapis/tapis-typescript';
+import DownloadVariables from '../_components/DownloadVariables';
 
 const Layout: React.FC<{
   projectId: string;
@@ -43,19 +44,26 @@ const Layout: React.FC<{
     <QueryWrapper isLoading={isLoading} error={error}>
       <div className={styles['variable-list']}>
         {variables.length ? (
-          variables.map((variable: string, index: number) => {
-            const id = `${index}`;
-            let variableMeasurements = measurements[variable];
-            return (
-              <Measurements
-                key={id}
-                id={id}
-                variable={variable}
-                graphWidth={600}
-                measurements={variableMeasurements}
-              />
-            );
-          })
+          <>
+            <div className={styles['download-button']}>
+              <DownloadVariables measurements={measurements} text="Download All Data" />
+            </div>
+            <div className={styles['list']}>
+              {variables.map((variable: string, index: number) => {
+                const id = `${index}`;
+                let variableMeasurements = measurements[variable];
+                return (
+                  <Measurements
+                    key={id}
+                    id={id}
+                    variable={variable}
+                    graphWidth={600}
+                    measurements={variableMeasurements}
+                  />
+                );
+              })}
+            </div>
+          </>
         ) : (
           <i>No measurements found</i>
         )}
