@@ -8,14 +8,26 @@ const download = (variables: string[], measurements: { [key: string]: any; }, fi
     extracted[variable] = measurements[variable];
   }
   const lformat = format.toLowerCase();
-  console.log("Download data: ", format);
   if (format === "JSON") {
     stringified = JSON.stringify(extracted);
   } else if (format === "CSV") {
     // TODO: convert to CSV string
-    return;
+    // get object keys, already done: variables
+    // get dates (measurements[variable])
+    // get values (measurements[date][variable])
+    // store into array of arrays: key, date, value
+    const CSVarr = [];
+    for (let variable of variables) {
+      const dates = Object.keys(measurements[variable]);
+      for (let date of dates) {
+        CSVarr.push([variable, date, measurements[variable][date]]);
+      }
+    }
+    stringified = CSVarr.map((row: any[]) => {
+      return row.join(',');
+    }).join('\n');
   } else {
-    console.log("Download format not recognized.");
+    console.log("ERROR: Download format not recognized.");
     return;
   }
   const blob = new Blob([stringified], { type: `text/${lformat}` });
