@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import styles from './Toolbar.module.scss';
-import Button from 'tapis-app/_components/Button';
 
 const Toolbar: React.FC<{
   start: Date | undefined;
@@ -86,7 +85,7 @@ const Toolbar: React.FC<{
           />
         </div>
       </div>
-      <Button onClick={() => setEnd(new Date())} text="Refresh Latest Data" />
+      <button onClick={() => setEnd(new Date())} title="Refresh to display data up until your current time">Refresh Latest Data</button>
     </div>
   );
 };

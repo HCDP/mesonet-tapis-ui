@@ -45,24 +45,39 @@ const Layout: React.FC<{
       <div className={styles['variable-list']}>
         {variables.length ? (
           <>
-            <div className={styles['download-button']}>
-              <DownloadVariables measurements={measurements} text="Download All Data" />
+            <div className={styles['download-all-button']}>
+              <DownloadVariables
+                variables={variables}
+                measurements={measurements}
+                fileName={instrumentId}
+                text="Download All Data"
+              />
             </div>
-            <div className={styles['list']}>
-              {variables.map((variable: string, index: number) => {
+            {variables.map((variable: string, index: number) => {
                 const id = `${index}`;
                 let variableMeasurements = measurements[variable];
                 return (
-                  <Measurements
-                    key={id}
-                    id={id}
-                    variable={variable}
-                    graphWidth={600}
-                    measurements={variableMeasurements}
-                  />
+                  <div className={styles['measurements-list']}>
+                    <div className={styles['download-variable-button']}>
+                      <DownloadVariables
+                        variables={[variable]}
+                        measurements={measurements}
+                        fileName={`${instrumentId}_${variable}`}
+                        text="Download Variable"
+                      />
+                    </div>
+                    <div className={styles['measurements']}>
+                      <Measurements
+                        key={id}
+                        id={id}
+                        variable={variable}
+                        graphWidth={600}
+                        measurements={variableMeasurements}
+                      />
+                    </div>
+                  </div>
                 );
               })}
-            </div>
           </>
         ) : (
           <i>No measurements found</i>

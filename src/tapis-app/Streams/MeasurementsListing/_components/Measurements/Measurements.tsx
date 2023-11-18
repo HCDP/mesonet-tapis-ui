@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styles from './Measurements.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import MeasurementsPlot from '../MeasurementsPlot';
-import Button from 'tapis-app/_components/Button';
-import DownloadVariables from '../../_components/DownloadVariables';
 
 const Measurements: React.FC<{
   variable: string;
@@ -93,7 +91,6 @@ const Measurements: React.FC<{
       <div>
         <div className={styles['variable-label']}>
           {`${variableLabel}`}
-          <div className={styles['download-button']}><DownloadVariables measurements={measurements} text="Download Variable"/></div>
         </div>
       </div>
       <div className={styles['measurements-list']} onClick={toggleMeasurements}>
