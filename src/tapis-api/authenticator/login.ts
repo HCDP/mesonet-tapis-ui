@@ -1,6 +1,6 @@
 import { Tokens } from '@tapis/tapis-typescript';
 import { apiGenerator, errorDecoder } from 'tapis-api/utils';
-import config from './config.json';
+import config from '../../config.json';
 
 const login = (
   basePath: string
