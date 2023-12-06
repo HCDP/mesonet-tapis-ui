@@ -66,7 +66,6 @@ const Layout: React.FC<{
                         text="Download Variable"
                       />
                     </div>
-                    <div className={styles['measurements']}>
                       <Measurements
                         key={id}
                         id={id}
@@ -74,7 +73,6 @@ const Layout: React.FC<{
                         graphWidth={600}
                         measurements={variableMeasurements}
                       />
-                    </div>
                   </div>
                 );
               })}

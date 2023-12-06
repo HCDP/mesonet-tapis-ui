@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './Measurements.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import MeasurementsPlot from '../MeasurementsPlot';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 const Measurements: React.FC<{
   variable: string;
@@ -13,7 +15,10 @@ const Measurements: React.FC<{
     width: graphWidth,
     height: 400,
   };
-  const [showGraph, setGraph] = useState<boolean>(false);
+
+  const [showVariable, setShowVariable] = useState<boolean>(true);
+
+  const [showGraph, setGraph] = useState<boolean>(true);
   const [measurementsList, setMeasurementsList] = useState<string[]>([]);
   const [measurementsCollapsed, setMeasurementsCollapsed] =
     useState<boolean>(true);
@@ -56,6 +61,10 @@ const Measurements: React.FC<{
     setVariableLabel(capitalizedVariable);
   }, [variable]);
 
+  const toggleVariable = () => {
+    setShowVariable(!showVariable);
+  };
+
   const toggleGraph = () => {
     setGraph(!showGraph);
   };
@@ -72,31 +81,60 @@ const Measurements: React.FC<{
   //allow multiple graphs to be expanded at once
   return (
     <li className={styles.li}>
-      <div className={styles['graph-toggle']} onClick={toggleGraph}>
-        <div className={styles['graph-toggle-label']}>
-          {showGraph ? 'Hide Graph' : 'Show Graph'}
-        </div>
-      </div>
-      <div
-        id={id}
-        className={
-          styles['graph-container'] +
-          (showGraph ? ` ${styles['graph-container-expand']}` : '')
-        }
-      >
-        <div id={`${id}_size_wrapper`}>
-          <MeasurementsPlot measurements={measurements} layout={plotlyLayout} />
-        </div>
-      </div>
-      <div>
-        <div className={styles['variable-label']}>
+      <div className={styles['variable-toggle']} onClick={toggleVariable}>
+        <div className={styles['variable-toggle-label']}>
+          <FontAwesomeIcon
+            className={
+              styles['variable-toggle-caret'] +
+              (showVariable ? '' : ` ${styles['variable-toggle-caret-expand']}`)
+            }
+            icon={faCaretDown}
+            size="lg"
+          />
           {`${variableLabel}`}
         </div>
       </div>
-      <div className={styles['measurements-list']} onClick={toggleMeasurements}>
-        {measurementsList.map((entry: string) => {
-          return <div key={uuidv4()}>{entry}</div>;
-        })}
+      <div
+        className={
+          styles['variable-container'] +
+          (showVariable ? ` ${styles['variable-container-expand']}` : '')
+        }
+      >
+        <div id={`${id}_size_wrapper`}>
+          <div className={styles['variable-control']}>
+            <MeasurementsPlot measurements={measurements} layout={plotlyLayout} />
+          </div>
+          <div className={styles['variable-control']}>
+            <table className={styles['measurements-list']} onClick={toggleMeasurements}>
+              <thead>
+                <tr>
+                  <th>Date-time</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* {measurementsList.map((entry: string) => {
+                  return (
+                    <tr key={uuidv4()}>
+                      <td>{entry}</td>
+                      <td>adsfdsaf</td>
+                    </tr>
+                  );
+                })} */
+                Object.entries(measurements).map(
+                  (entry: [string, number]) => {
+                    return (
+                      <tr key={uuidv4()}>
+                        <td>{entry}</td>
+                        <td>adsfdsaf</td>
+                    </tr>
+                    );
+                  }
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </li>
   );
