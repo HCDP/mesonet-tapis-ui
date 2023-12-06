@@ -19,14 +19,14 @@ const Measurements: React.FC<{
   const [showVariable, setShowVariable] = useState<boolean>(true);
 
   const [showGraph, setGraph] = useState<boolean>(true);
-  const [measurementsList, setMeasurementsList] = useState<string[]>([]);
+  const [measurementsList, setMeasurementsList] = useState<JSX.Element[]>([]);
   const [measurementsCollapsed, setMeasurementsCollapsed] =
     useState<boolean>(true);
-  const [fullMeasurementsList, setFullMeasurementsList] = useState<string[]>(
+  const [fullMeasurementsList, setFullMeasurementsList] = useState<JSX.Element[]>(
     []
   );
   const [collapsedMeasurementsList, setCollapsedMeasurementsList] = useState<
-    string[]
+    JSX.Element[]
   >([]);
   const [variableLabel, setVariableLabel] = useState<string>('');
 
@@ -34,15 +34,23 @@ const Measurements: React.FC<{
     let fullMeasurements = Object.entries(measurements).map(
       (entry: [string, number]) => {
         let date = entry[0].replace('T', ' ');
-        return `${date}: ${entry[1]}`;
+        return (
+          <tr>
+            <td>{date}</td>
+            <td>{entry[1]}</td>
+          </tr>
+        );
       }
     );
-    let collapsedMeasurements: string[] = fullMeasurements;
+    let collapsedMeasurements: JSX.Element[] = fullMeasurements;
     if (fullMeasurements.length > 5) {
       collapsedMeasurements = [
         fullMeasurements[0],
         fullMeasurements[1],
-        '...',
+        <tr>
+          <td>...</td>
+          <td></td>
+        </tr>,
         fullMeasurements[fullMeasurements.length - 2],
         fullMeasurements[fullMeasurements.length - 1],
       ];
@@ -95,45 +103,29 @@ const Measurements: React.FC<{
         </div>
       </div>
       <div
+        id={`${id}_size_wrapper`}
         className={
           styles['variable-container'] +
           (showVariable ? ` ${styles['variable-container-expand']}` : '')
         }
       >
-        <div id={`${id}_size_wrapper`}>
-          <div className={styles['variable-control']}>
-            <MeasurementsPlot measurements={measurements} layout={plotlyLayout} />
-          </div>
-          <div className={styles['variable-control']}>
-            <table className={styles['measurements-list']} onClick={toggleMeasurements}>
-              <thead>
-                <tr>
-                  <th>Date-time</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* {measurementsList.map((entry: string) => {
-                  return (
-                    <tr key={uuidv4()}>
-                      <td>{entry}</td>
-                      <td>adsfdsaf</td>
-                    </tr>
-                  );
-                })} */
-                Object.entries(measurements).map(
-                  (entry: [string, number]) => {
-                    return (
-                      <tr key={uuidv4()}>
-                        <td>{entry}</td>
-                        <td>adsfdsaf</td>
-                    </tr>
-                    );
-                  }
-                )}
-              </tbody>
-            </table>
-          </div>
+        <div>
+          <MeasurementsPlot measurements={measurements} layout={plotlyLayout} />
+        </div>
+        <div className={styles['variable-control']}>
+          <table className={styles['measurements-list']} onClick={toggleMeasurements}>
+            <thead>
+              <tr>
+                <th>Date-time</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {measurementsList.map((entry: JSX.Element) => {
+                return entry;
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
     </li>

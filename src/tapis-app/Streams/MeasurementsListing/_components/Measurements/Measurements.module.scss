@@ -53,15 +53,17 @@
 }
 
 .variable-container {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   max-height: 0;
   opacity: 0;
-  overflow-y: hidden;
+  overflow-y: auto;
   transition: all 0.25s ease-out;
 }
 
 .variable-container.variable-container-expand {
-  max-height: 400px;
+  display: flex;
+  max-height: 407px;
   opacity: 1;
   transition: all 0.3s ease-out;
 }
@@ -76,6 +78,7 @@
 }
 
 .variable-control {
-  display: inline-block;
-  vertical-align: top;
+  max-height: 407px;
+  flex-grow: 1;
+  overflow-y: scroll;
 }
