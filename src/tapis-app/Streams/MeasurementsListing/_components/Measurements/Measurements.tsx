@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './Measurements.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import MeasurementsPlot from '../MeasurementsPlot';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 const Measurements: React.FC<{
   variable: string;
@@ -13,15 +15,16 @@ const Measurements: React.FC<{
     width: graphWidth,
     height: 400,
   };
-  const [showGraph, setGraph] = useState<boolean>(false);
-  const [measurementsList, setMeasurementsList] = useState<string[]>([]);
+
+  const [showVariable, setShowVariable] = useState<boolean>(true);
+  const [measurementsList, setMeasurementsList] = useState<JSX.Element[]>([]);
   const [measurementsCollapsed, setMeasurementsCollapsed] =
     useState<boolean>(true);
-  const [fullMeasurementsList, setFullMeasurementsList] = useState<string[]>(
+  const [fullMeasurementsList, setFullMeasurementsList] = useState<JSX.Element[]>(
     []
   );
   const [collapsedMeasurementsList, setCollapsedMeasurementsList] = useState<
-    string[]
+    JSX.Element[]
   >([]);
   const [variableLabel, setVariableLabel] = useState<string>('');
 
@@ -29,15 +32,23 @@ const Measurements: React.FC<{
     let fullMeasurements = Object.entries(measurements).map(
       (entry: [string, number]) => {
         let date = entry[0].replace('T', ' ');
-        return `${date}: ${entry[1]}`;
+        return (
+          <tr key={uuidv4()}>
+            <td>{date}</td>
+            <td>{entry[1]}</td>
+          </tr>
+        );
       }
     );
-    let collapsedMeasurements: string[] = fullMeasurements;
+    let collapsedMeasurements: JSX.Element[] = fullMeasurements;
     if (fullMeasurements.length > 5) {
       collapsedMeasurements = [
         fullMeasurements[0],
         fullMeasurements[1],
-        '...',
+        <tr key={uuidv4()}>
+          <td>...</td>
+          <td></td>
+        </tr>,
         fullMeasurements[fullMeasurements.length - 2],
         fullMeasurements[fullMeasurements.length - 1],
       ];
@@ -56,8 +67,8 @@ const Measurements: React.FC<{
     setVariableLabel(capitalizedVariable);
   }, [variable]);
 
-  const toggleGraph = () => {
-    setGraph(!showGraph);
+  const toggleVariable = () => {
+    setShowVariable(!showVariable);
   };
 
   const toggleMeasurements = () => {
@@ -72,31 +83,44 @@ const Measurements: React.FC<{
   //allow multiple graphs to be expanded at once
   return (
     <li className={styles.li}>
-      <div className={styles['graph-toggle']} onClick={toggleGraph}>
-        <div className={styles['graph-toggle-label']}>
-          {showGraph ? 'Hide Graph' : 'Show Graph'}
-        </div>
-      </div>
-      <div
-        id={id}
-        className={
-          styles['graph-container'] +
-          (showGraph ? ` ${styles['graph-container-expand']}` : '')
-        }
-      >
-        <div id={`${id}_size_wrapper`}>
-          <MeasurementsPlot measurements={measurements} layout={plotlyLayout} />
-        </div>
-      </div>
-      <div>
-        <div className={styles['variable-label']}>
+      <div className={styles['variable-toggle']} onClick={toggleVariable}>
+        <div className={styles['variable-toggle-label']}>
+          <FontAwesomeIcon
+            className={
+              styles['variable-toggle-caret'] +
+              (showVariable ? '' : ` ${styles['variable-toggle-caret-expand']}`)
+            }
+            icon={faCaretDown}
+            size="lg"
+          />
           {`${variableLabel}`}
         </div>
       </div>
-      <div className={styles['measurements-list']} onClick={toggleMeasurements}>
-        {measurementsList.map((entry: string) => {
-          return <div key={uuidv4()}>{entry}</div>;
-        })}
+      <div
+        id={`${id}_size_wrapper`}
+        className={
+          styles['variable-container'] +
+          (showVariable ? ` ${styles['variable-container-expand']}` : '')
+        }
+      >
+        <div>
+          <MeasurementsPlot measurements={measurements} layout={plotlyLayout} />
+        </div>
+        <div className={styles['variable-control']}>
+          <table className={styles['measurements-list']} onClick={toggleMeasurements}>
+            <thead>
+              <tr key={uuidv4()}>
+                <th>Date-time</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {measurementsList.map((entry: JSX.Element) => {
+                return entry;
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </li>
   );
