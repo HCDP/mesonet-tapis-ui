@@ -17,8 +17,6 @@ const Measurements: React.FC<{
   };
 
   const [showVariable, setShowVariable] = useState<boolean>(true);
-
-  const [showGraph, setGraph] = useState<boolean>(true);
   const [measurementsList, setMeasurementsList] = useState<JSX.Element[]>([]);
   const [measurementsCollapsed, setMeasurementsCollapsed] =
     useState<boolean>(true);
@@ -35,7 +33,7 @@ const Measurements: React.FC<{
       (entry: [string, number]) => {
         let date = entry[0].replace('T', ' ');
         return (
-          <tr>
+          <tr key={uuidv4()}>
             <td>{date}</td>
             <td>{entry[1]}</td>
           </tr>
@@ -47,7 +45,7 @@ const Measurements: React.FC<{
       collapsedMeasurements = [
         fullMeasurements[0],
         fullMeasurements[1],
-        <tr>
+        <tr key={uuidv4()}>
           <td>...</td>
           <td></td>
         </tr>,
@@ -71,10 +69,6 @@ const Measurements: React.FC<{
 
   const toggleVariable = () => {
     setShowVariable(!showVariable);
-  };
-
-  const toggleGraph = () => {
-    setGraph(!showGraph);
   };
 
   const toggleMeasurements = () => {
@@ -115,7 +109,7 @@ const Measurements: React.FC<{
         <div className={styles['variable-control']}>
           <table className={styles['measurements-list']} onClick={toggleMeasurements}>
             <thead>
-              <tr>
+              <tr key={uuidv4()}>
                 <th>Date-time</th>
                 <th>Value</th>
               </tr>
