@@ -46,7 +46,7 @@ const Toolbar: React.FC<{
     setOffsetInput(value?.toString() || '');
     setOffset(value);
   };
-
+  
   return (
     <div className={styles['control-bar']}>
       <div className={styles['control']}>
@@ -85,6 +85,7 @@ const Toolbar: React.FC<{
           />
         </div>
       </div>
+      <button onClick={() => setEnd(new Date())} title="Refresh to display data up until your current time">Refresh Latest Data</button>
     </div>
   );
 };

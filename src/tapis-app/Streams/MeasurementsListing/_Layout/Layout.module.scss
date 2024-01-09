@@ -2,3 +2,19 @@
   height: 100%;
   overflow-y: auto;
 }
+
+.measurements-list {
+}
+
+.download-all-button {
+  padding-right: 1.25rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.download-variable-button {
+  display: flex;
+  padding-top: 0.5rem;
+  padding-right: 1.25rem;
+  float: right;
+}

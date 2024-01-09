@@ -15,8 +15,12 @@ const Router: React.FC<{ projectId: string; siteId: string }> = ({
 }) => {
   const { path } = useRouteMatch();
 
-  const [start, setStart] = useState<Date | undefined>(undefined);
-  const [end, setEnd] = useState<Date | undefined>(undefined);
+  const [start, setStart] = useState<Date | undefined>(() => {
+    const now = new Date();
+    now.setHours(now.getHours() - 12);
+    return now;
+  });
+  const [end, setEnd] = useState<Date | undefined>(() => new Date());
 
   const [limit, setLimit] = useState<number | undefined>(undefined);
   const [offset, setOffset] = useState<number | undefined>(undefined);
