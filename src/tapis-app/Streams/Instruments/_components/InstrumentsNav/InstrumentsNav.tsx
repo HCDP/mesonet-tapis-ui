@@ -18,7 +18,7 @@ const InstrumentsNav: React.FC<{ projectId: string; siteId: string }> = ({
   });
   const definitions: Array<Streams.Instrument> = data?.result ?? [];
   const first_site = definitions[0];
-  const site_name = first_site?.inst_description?.split(" ")[2].split("_")[1];
+  const site_name = first_site?.inst_description?.split(" ").pop() ?? "";
   return (
     <QueryWrapper isLoading={isLoading} error={error}>
       {`${site_name}`}

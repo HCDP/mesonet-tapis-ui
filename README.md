@@ -5,6 +5,18 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Getting Started
+
+run:
+
+### `npm install``
+
+then 
+
+### `npm audit fix --force`
+
+This will fix issues with legacy node versions and SSL problems 
+
 ## Available Scripts
 
 In the project directory, you can run:

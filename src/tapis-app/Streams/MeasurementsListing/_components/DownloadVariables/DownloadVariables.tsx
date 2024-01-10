@@ -55,6 +55,7 @@ const DownloadVariables: React.FC<{
         onClick={() => download(variables, measurements, fileName, format)}
         title={title ? title : `Download ${variables.length === 1 ? "this variable" : "all selected variables"} as a single ${format} file`}
       >
+<<<<<<< HEAD
         {text}
       </button>
       <div className={styles['dropdown']}>
@@ -65,6 +66,21 @@ const DownloadVariables: React.FC<{
           <option value="CSV">CSV</option>
           <option value="JSON">JSON</option>
         </select>
+=======
+          {text}
+        </button>
+        <div className={styles['dropdown']}>
+          <select
+            onChange={(event) => {
+              const format = event.target.value;
+              setFormat(format);
+            }}
+            title="Select Format"
+          >
+            <option value="JSON">JSON</option>
+            <option value="CSV">CSV</option>
+          </select>
+>>>>>>> 0aaa772a34b4aff661aad1870a85f3f15ae1ed88
       </div>
     </div>
   );
