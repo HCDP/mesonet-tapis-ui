@@ -73,6 +73,7 @@ const SitesNav: React.FC<{ projectId: string }> = ({ projectId }) => {
             );
           })
         ) : sorted_definitions.length ? sorted_definitions.map((site) => {
+          console.log(site);
             const path = joinPath([url, site.site_name!]);
             return (
               <NavItem to={path} icon="project" key={site.site_name}>

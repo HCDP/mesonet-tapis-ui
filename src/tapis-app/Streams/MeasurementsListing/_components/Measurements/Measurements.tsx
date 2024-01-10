@@ -4,17 +4,46 @@ import { v4 as uuidv4 } from 'uuid';
 import MeasurementsPlot from '../MeasurementsPlot';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { formatDateTime, utc2hst } from 'utils/timeFormat';
+
+type MeasurementsType = { [datetime: string]: number };
+
+function convert(measurements: MeasurementsType): MeasurementsType {
+  let converted: MeasurementsType  = {};
+  for(let timestamp in measurements) {
+    converted[utc2hst(timestamp)] = measurements[timestamp];
+  }
+  return converted;
+}
 
 const Measurements: React.FC<{
+  unit: string | undefined;
   variable: string;
   graphWidth: number;
   id: string;
   measurements: { [datetime: string]: number };
-}> = ({ variable, graphWidth, id, measurements }) => {
+}> = ({ variable, graphWidth, id, measurements, unit }) => {
   let plotlyLayout: Partial<Plotly.Layout> = {
     width: graphWidth,
     height: 400,
+    xaxis: {
+      title: {
+        text: "Timestamp"
+      }
+    },
+    yaxis: {
+      title: {
+        text: `${variable}` + (unit ? ` (${unit})` : "")
+      }
+    }
   };
+  
+
+  const [hstMeasurements, setHstMeasurements] = useState<{ [datetime: string]: number }>({});
+  useEffect(() => {
+    let hstMeasurements = convert(measurements);
+    setHstMeasurements(hstMeasurements)
+  }, [measurements])
 
   const [showVariable, setShowVariable] = useState<boolean>(true);
   const [measurementsList, setMeasurementsList] = useState<JSX.Element[]>([]);
@@ -29,9 +58,9 @@ const Measurements: React.FC<{
   const [variableLabel, setVariableLabel] = useState<string>('');
 
   useEffect(() => {
-    let fullMeasurements = Object.entries(measurements).map(
+    let fullMeasurements = Object.entries(hstMeasurements).map(
       (entry: [string, number]) => {
-        let date = entry[0].replace('T', ' ');
+        let date = formatDateTime(new Date(entry[0]));
         return (
           <tr key={uuidv4()}>
             <td>{date}</td>
@@ -58,7 +87,7 @@ const Measurements: React.FC<{
     );
     setFullMeasurementsList(fullMeasurements);
     setCollapsedMeasurementsList(collapsedMeasurements);
-  }, [measurements, measurementsCollapsed]);
+  }, [measurements, measurementsCollapsed, hstMeasurements]);
 
   useEffect(() => {
     let capitalizedVariable = `${variable
@@ -104,14 +133,16 @@ const Measurements: React.FC<{
         }
       >
         <div>
-          <MeasurementsPlot measurements={measurements} layout={plotlyLayout} />
+          <MeasurementsPlot 
+            measurements={hstMeasurements}
+            layout={plotlyLayout} />
         </div>
         <div className={styles['variable-control']}>
           <table className={styles['measurements-list']} onClick={toggleMeasurements}>
             <thead>
               <tr key={uuidv4()}>
                 <th>Date-time</th>
-                <th>Value</th>
+                <th>Value {unit ? `(${unit})` : ""}</th>
               </tr>
             </thead>
             <tbody>

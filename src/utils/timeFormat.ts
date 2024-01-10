@@ -24,6 +24,25 @@ export function formatTime(dateTime: Date) {
   });
 }
 
+export function date2hst(date: Date): string {
+  let dc = new Date(date);
+  dc.setHours(date.getHours() - 10);
+  let isoString = dc.toISOString().slice(0, -1) + "-10:00";
+  return isoString;
+}
+
+export function utc2hst(timestamp: string): string {
+  let date = new Date(timestamp);
+  let isoString = date2hst(date);
+  return isoString;
+}
+
+export function hst2utc(timestamp: string): string {
+  let date = new Date(timestamp);
+  let isoString = date.toISOString();
+  return isoString;
+}
+
 /**
  * Create a string representation of date and time using internal standard
  * @param {Date} dateTime - A date object

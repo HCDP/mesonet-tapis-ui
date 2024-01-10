@@ -48,7 +48,7 @@ const DownloadVariables: React.FC<{
   title?: string;
   text?: string;
 }> = ({ variables, measurements, fileName, title, text }) => {
-  const [ format, setFormat ] = useState('JSON');
+  const [ format, setFormat ] = useState('CSV');
   return (
     <div className={styles['wrapper']}>
       <button
@@ -62,8 +62,8 @@ const DownloadVariables: React.FC<{
           const format = event.target.value;
           setFormat(format);
         }}>
-          <option value="JSON">JSON</option>
           <option value="CSV">CSV</option>
+          <option value="JSON">JSON</option>
         </select>
       </div>
     </div>

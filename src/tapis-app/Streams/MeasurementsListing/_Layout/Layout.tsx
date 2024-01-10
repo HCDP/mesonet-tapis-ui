@@ -1,10 +1,8 @@
-import { useList } from 'tapis-hooks/streams/measurements';
-import Measurements from '../_components/Measurements';
+import { useList } from 'tapis-hooks/streams/variables';
 import React from 'react';
-import styles from './Layout.module.scss';
 import { QueryWrapper } from 'tapis-ui/_wrappers';
 import { Streams } from '@tapis/tapis-typescript';
-import DownloadVariables from '../_components/DownloadVariables';
+import Variables from '../_components/Variables';
 
 const Layout: React.FC<{
   projectId: string;
@@ -15,72 +13,27 @@ const Layout: React.FC<{
   limit?: number;
   offset?: number;
 }> = ({ projectId, siteId, instrumentId, start, end, limit, offset }) => {
-  let payload: Streams.ListMeasurementsRequest = {
+  let payload: Streams.ListVariablesRequest = {
     projectId,
     siteId,
-    instId: instrumentId,
+    instId: instrumentId
   };
-  if (start) {
-    payload.startDate = start.toISOString();
-  }
-  if (end) {
-    payload.endDate = end.toISOString();
-  }
-  if (limit !== undefined) {
-    payload.limit = limit;
-  }
-  if (offset !== undefined) {
-    payload.offset = offset;
-  }
-
   const { data, isLoading, error } = useList(payload);
 
-  const { instrument, site, measurements_in_file, ...measurements } =
-    data?.result ?? {};
-
-  const variables = Object.keys(measurements);
+  const variables = data?.result ?? [];
 
   return (
     <QueryWrapper isLoading={isLoading} error={error}>
-      <div className={styles['variable-list']}>
-        {variables.length ? (
-          <>
-            <div className={styles['download-all-button']}>
-              <DownloadVariables
-                variables={variables}
-                measurements={measurements}
-                fileName={instrumentId}
-                text="Download All Data"
-              />
-            </div>
-            {variables.map((variable: string, index: number) => {
-                const id = `${index}`;
-                let variableMeasurements = measurements[variable];
-                return (
-                  <div className={styles['measurements-list']}>
-                    <div className={styles['download-variable-button']}>
-                      <DownloadVariables
-                        variables={[variable]}
-                        measurements={measurements}
-                        fileName={`${instrumentId}_${variable}`}
-                        text="Download Variable"
-                      />
-                    </div>
-                      <Measurements
-                        key={id}
-                        id={id}
-                        variable={variable}
-                        graphWidth={600}
-                        measurements={variableMeasurements}
-                      />
-                  </div>
-                );
-              })}
-          </>
-        ) : (
-          <i>No measurements found</i>
-        )}
-      </div>
+      <Variables
+        variables={variables}
+        projectId={projectId}
+        siteId={siteId}
+        instrumentId={instrumentId}
+        start={start}
+        end={end}
+        limit={limit}
+        offset={offset}
+      ></Variables>
     </QueryWrapper>
   );
 };
