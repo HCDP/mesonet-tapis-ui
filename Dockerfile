@@ -15,7 +15,10 @@ COPY ./ ./
 # Install all files in the package json
 RUN npm install
 
-CMD ["npm", "run", "start"]
+RUN npm install -g serve
+RUN npm run build
+
+CMD ["serve", "-s", "build"]
 
 # RUN npm run build
 
