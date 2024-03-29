@@ -6,7 +6,7 @@ import breadcrumbsFromPathname from 'tapis-ui/_common/Breadcrumbs/breadcrumbsFro
 import styles from './Layout.module.scss';
 import config from '../../../config.json';
 
-const pathTypes = ['Stations', 'Data Types', 'Data Types'];
+const pathTypes = ['Stations', 'Measurements'];
 
 const Layout: React.FC = () => {
   const { pathname } = useLocation();

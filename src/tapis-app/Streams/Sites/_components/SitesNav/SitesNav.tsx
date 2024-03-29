@@ -12,21 +12,9 @@ const SitesNav: React.FC<{ projectId: string }> = ({ projectId }) => {
   const { data, isLoading, error } = useList({
     projectId,
   });
-  const definitions: Array<Streams.Site> = data?.result ?? [];
-  const sorted_definitions: Array<Streams.Site> = definitions.slice().sort((a, b) => {
-    if (a.site_name === undefined && b.site_name === undefined) {
-      return 0;
-    }
-    if (a.site_name === undefined) {
-      return 1;
-    }
-    if (b.site_name === undefined) {
-      return -1;
-    }
-    
-    return a.site_name.localeCompare(b.site_name);});
 
   const [searchInput, setSearchInput] = useState<string>('');
+  const [sortedDefinitions, setSortedDefinitions] = useState<Array<Streams.Site>>([]);
   const [filterDefinitions, setFilteredDefinitions] = useState<Array<Streams.Site>>([]);
 
   const createSearch = (event: any) => {
@@ -35,18 +23,36 @@ const SitesNav: React.FC<{ projectId: string }> = ({ projectId }) => {
   };
 
   useEffect(() => {
-    let filteredSites = sorted_definitions;
+    const definitions: Array<Streams.Site> = data?.result ?? [];
+    const sortedDefinitions = definitions.slice().sort((a, b) => {
+      if (a.site_name === undefined && b.site_name === undefined) {
+        return 0;
+      }
+      if (a.site_name === undefined) {
+        return 1;
+      }
+      if (b.site_name === undefined) {
+        return -1;
+      }
+      
+      return a.site_name.localeCompare(b.site_name);
+    });
+    setSortedDefinitions(sortedDefinitions);
+  }, [data]);
+
+  useEffect(() => {
+    let filteredSites = sortedDefinitions;
     
     if(searchInput !== '') {
-        filteredSites = sorted_definitions.filter(site =>
-        site.site_id?.toLowerCase().startsWith(searchInput.toLowerCase())
-        || (site as any).metadata?.station_name?.toLowerCase().startsWith(searchInput.toLowerCase())
+        filteredSites = sortedDefinitions.filter(site =>
+        site.site_id?.toLowerCase().includes(searchInput.toLowerCase())
+        || site.site_name?.toLowerCase().includes(searchInput.toLowerCase())
       );
     }
     
     setFilteredDefinitions(filteredSites);
   // eslint-disable-next-line
-  }, [searchInput]);
+  }, [searchInput, sortedDefinitions]);
 
   return (
     <QueryWrapper isLoading={isLoading} error={error}>
@@ -65,22 +71,14 @@ const SitesNav: React.FC<{ projectId: string }> = ({ projectId }) => {
       <Navbar>
         {filterDefinitions.length ? (
           filterDefinitions.map((site) => {
-            const path = joinPath([url, site.site_name!]);
+            const path = joinPath([url, site.site_id!]);
             return (
-              <NavItem to={path} icon="project" key={site.site_name}>
-                {`${site.site_name} (${(site as any).metadata?.station_name ?? ""})`}
+              <NavItem to={path} icon="project" key={site.site_id}>
+                {`${site.site_id} (${site.site_name})`}
               </NavItem>
             );
           })
-        ) : sorted_definitions.length ? sorted_definitions.map((site) => {
-          console.log(site);
-            const path = joinPath([url, site.site_name!]);
-            return (
-              <NavItem to={path} icon="project" key={site.site_name}>
-                {`${site.site_name} (${(site as any).metadata?.station_name ?? ""})`}
-              </NavItem>
-            );
-          }) : (
+        ) : (
           <i>No sites found</i>
         )}
       </Navbar>

@@ -5,6 +5,7 @@ import MeasurementsPlot from '../MeasurementsPlot';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { formatDateTime, utc2hst } from 'utils/timeFormat';
+import DownloadVariables from '../DownloadVariables';
 
 type MeasurementsType = { [datetime: string]: number };
 
@@ -21,11 +22,12 @@ const Measurements: React.FC<{
   variable: string;
   graphWidth: number;
   id: string;
+  downloadName:string,
   measurements: { [datetime: string]: number };
-}> = ({ variable, graphWidth, id, measurements, unit }) => {
+}> = ({ variable, graphWidth, id, measurements, unit, downloadName }) => {
   let plotlyLayout: Partial<Plotly.Layout> = {
     width: graphWidth,
-    height: 400,
+    height: 600,
     xaxis: {
       title: {
         text: "Timestamp"
@@ -100,13 +102,18 @@ const Measurements: React.FC<{
     setShowVariable(!showVariable);
   };
 
+  const stopProp = (e: any) => {
+    e.stopPropagation();
+  }
+
   const toggleMeasurements = () => {
     setMeasurementsCollapsed(!measurementsCollapsed);
     setMeasurementsList(
       measurementsCollapsed ? fullMeasurementsList : collapsedMeasurementsList
     );
   };
-
+  let fileMeasurements: any = {};
+  fileMeasurements[id] = measurements;
   //place "Show/Hide Graph" button above
   //collapse measurements and expand on click
   //allow multiple graphs to be expanded at once
@@ -124,7 +131,16 @@ const Measurements: React.FC<{
           />
           {`${variableLabel}`}
         </div>
+        <div className={styles['download-variable-button']} onClick={stopProp}>
+          <DownloadVariables
+            variables={[id]}
+            measurements={fileMeasurements}
+            fileName={downloadName}
+            text="Download Variable"
+          />
+        </div>
       </div>
+      
       <div
         id={`${id}_size_wrapper`}
         className={
