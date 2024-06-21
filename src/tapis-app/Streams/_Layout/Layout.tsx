@@ -5,6 +5,7 @@ import { useLocation } from 'react-router';
 import breadcrumbsFromPathname from 'tapis-ui/_common/Breadcrumbs/breadcrumbsFromPathname';
 import styles from './Layout.module.scss';
 import config from '../../../config.json';
+import Location from '../Location';
 
 const pathTypes = ['Stations', 'Measurements'];
 
@@ -24,7 +25,7 @@ const Layout: React.FC = () => {
     </LayoutHeader>
   );
 
-  const body = <Sites projectId={config.project_id} />;
+  const body = <Location />;
 
   return <PageLayout top={header} left={body} />;
 };
