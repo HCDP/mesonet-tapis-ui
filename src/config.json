@@ -1,4 +1,13 @@
 {
-    "refresh_token": "token",
-    "project_id": "test-p1_013"
+    "refresh_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwOGQ0ZWIzYi0wNGUxLTRlODUtYWE4My1iYTFmNTIwZDkwZWQiLCJpc3MiOiJodHRwczovL2Rldi5kZXZlbG9wLnRhcGlzLmlvL3YzL3Rva2VucyIsInN1YiI6InRlc3R1c2VyMkBkZXYiLCJ0YXBpcy9pbml0aWFsX3R0bCI6MzE1MzYwMDAsInRhcGlzL3RlbmFudF9pZCI6ImRldiIsInRhcGlzL3Rva2VuX3R5cGUiOiJyZWZyZXNoIiwiZXhwIjoxNzMzNDU3NDYyLCJ0YXBpcy9hY2Nlc3NfdG9rZW4iOnsianRpIjoiMzJlYmFlNTQtYTFjYy00YTZmLWJhYzUtZDRmZjEzNTM4Y2QyIiwiaXNzIjoiaHR0cHM6Ly9kZXYuZGV2ZWxvcC50YXBpcy5pby92My90b2tlbnMiLCJzdWIiOiJ0ZXN0dXNlcjJAZGV2IiwidGFwaXMvdGVuYW50X2lkIjoiZGV2IiwidGFwaXMvdG9rZW5fdHlwZSI6ImFjY2VzcyIsInRhcGlzL2RlbGVnYXRpb24iOmZhbHNlLCJ0YXBpcy9kZWxlZ2F0aW9uX3N1YiI6bnVsbCwidGFwaXMvdXNlcm5hbWUiOiJ0ZXN0dXNlcjIiLCJ0YXBpcy9hY2NvdW50X3R5cGUiOiJ1c2VyIiwidGFwaXMvY2xpZW50X2lkIjoibWVzb25ldCIsInRhcGlzL2dyYW50X3R5cGUiOiJwYXNzd29yZCIsInRhcGlzL3JlZnJlc2hfY291bnQiOjAsInR0bCI6MTQ0MDB9fQ.MJeaEoT1QAeaG3KLe_WK3IplaTDDqMnge9UQ-X7F-UXUeBcL_v8K8D1V1rM31JmFHeO4Ds5FSoQ8TTZxZWl5-0LTP4apUXAWKQh3WtlV7vBv0_QZTkbe0Nw1E0cEb4_0nghcZGAF7GqFtZvdoVPxrpXXHYUQI2YRN7HKaThtVZ9G9AsZMpJJxhVVe35ik7VQk55HXstzcmkKg-LNwit81QkDqEG8rIApzsY3T585pHvADKOhg8jOdKEbpDnVKqLxkGxLRScELeDgi_-QD4xpBy0f4GzP4ijowUUuaRhRuZbk6us8Qcm0zD25cAlbsfD4hMEKI7iYej-Qm4ZDZhcEtA",
+    "projects": {
+        "hawaii": {
+            "project": "hawaii_mesonet",
+            "timezone": "Pacific/Honolulu"
+        },
+        "american_samoa": {
+            "project": "american_samoa_mesonet",
+            "timezone": "Pacific/Pago_Pago"
+        }
+    }
 }
