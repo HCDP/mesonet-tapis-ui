@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 import MeasurementsListing from '../../MeasurementsListing';
 import { SitesNav } from '../_components';
-import config from '../../../../config.json';
 
 const Router: React.FC<{ projectId: string; }> = ({
   projectId
@@ -30,7 +29,7 @@ const Router: React.FC<{ projectId: string; }> = ({
               <MeasurementsListing
                 projectId={projectId}
                 siteId={siteId}
-                instrumentId={siteId + config.inst_ext}
+                instrumentId={siteId}
               />
             )
           }

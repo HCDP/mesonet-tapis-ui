@@ -5,32 +5,30 @@ import {
   RouteComponentProps,
   Switch
 } from 'react-router-dom';
-import MeasurementsListing from '../../MeasurementsListing';
-import { SitesNav } from '../_components';
+import { LocationsNav } from '../_components';
 import config from '../../../../config.json';
+import Sites from 'tapis-app/Streams/Sites';
 
-const Router: React.FC<{ projectId: string; }> = ({
-  projectId
-}) => {
+const Router: React.FC = () => {
   const { path } = useRouteMatch();
+  const { projects } = config as any;
 
   return (
     <Switch>
       <Route path={`${path}`} exact>
-        <SitesNav projectId={projectId} />
+        <LocationsNav />
       </Route>
       <Route
-        path={`${path}/:siteId`}
+        path={`${path}/:location`}
         render={({
           match: {
-            params: { siteId },
+            params: { location },
           },
-          }: RouteComponentProps<{ siteId: string }>) => {
+          }: RouteComponentProps<{ location: string }>) => {
             return (
-              <MeasurementsListing
-                projectId={projectId}
-                siteId={siteId}
-                instrumentId={siteId + config.inst_ext}
+              <Sites
+                // location={location}
+                projectId={projects[location]}
               />
             )
           }

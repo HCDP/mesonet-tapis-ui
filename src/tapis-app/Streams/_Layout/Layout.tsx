@@ -1,10 +1,8 @@
 import React from 'react';
-import Sites from '../Sites';
 import { Breadcrumbs, PageLayout, LayoutHeader } from 'tapis-ui/_common';
 import { useLocation } from 'react-router';
 import breadcrumbsFromPathname from 'tapis-ui/_common/Breadcrumbs/breadcrumbsFromPathname';
 import styles from './Layout.module.scss';
-import config from '../../../config.json';
 import Location from '../Location';
 
 const pathTypes = ['Stations', 'Measurements'];
