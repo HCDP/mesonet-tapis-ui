@@ -48,42 +48,35 @@ const Variables: React.FC<{
     data?.result ?? {};
 
   
-  const variableNames = Object.keys(measurements);
+  const variableIDs = Object.keys(measurements);
 
   return (
-    <QueryWrapper isLoading={isLoading} error={error}>
+    <QueryWrapper isLoading={isLoading} error={error} altMessage="No data found">
       <div className={styles['variable-list']}>
-        {variableNames.length ? (
+        {variableIDs.length ? (
           <>
             <div className={styles['download-all-button']}>
               <DownloadVariables
-                variables={variableNames}
+                variables={variableIDs}
                 measurements={measurements}
                 fileName={instrumentId}
                 text="Download All Data"
               />
             </div>
-            {variableNames.map((variable: string, index: number) => {
-                const id = `${index}`;
-                let variableMeasurements = measurements[variable];
+            {variableIDs.map((varID: string) => {
+                let variableMeasurements = measurements[varID];
+                const { unit, var_name } = variableMap[varID];
                 return (
                   <div className={styles['measurements-list']}>
-                    <div className={styles['download-variable-button']}>
-                      <DownloadVariables
-                        variables={[variable]}
-                        measurements={measurements}
-                        fileName={`${instrumentId}_${variable}`}
-                        text="Download Variable"
-                      />
-                    </div>
-                      <Measurements
-                        unit={variableMap[variable].unit}
-                        key={id}
-                        id={id}
-                        variable={variable}
-                        graphWidth={600}
-                        measurements={variableMeasurements}
-                      />
+                    <Measurements
+                      unit={unit}
+                      key={varID!}
+                      id={varID!}
+                      variable={var_name!}
+                      graphWidth={800}
+                      measurements={variableMeasurements}
+                      downloadName={`${siteId}_${varID}`}
+                    />
                   </div>
                 );
               })}

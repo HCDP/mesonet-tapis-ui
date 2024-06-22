@@ -3,12 +3,15 @@ import {
   Route,
   useRouteMatch,
   RouteComponentProps,
-  Switch,
+  Switch
 } from 'react-router-dom';
+import MeasurementsListing from '../../MeasurementsListing';
 import { SitesNav } from '../_components';
-import Instruments from '../../Instruments';
+import config from '../../../../config.json';
 
-const Router: React.FC<{ projectId: string }> = ({ projectId }) => {
+const Router: React.FC<{ projectId: string; }> = ({
+  projectId
+}) => {
   const { path } = useRouteMatch();
 
   return (
@@ -16,16 +19,22 @@ const Router: React.FC<{ projectId: string }> = ({ projectId }) => {
       <Route path={`${path}`} exact>
         <SitesNav projectId={projectId} />
       </Route>
-
       <Route
         path={`${path}/:siteId`}
         render={({
           match: {
             params: { siteId },
           },
-        }: RouteComponentProps<{ siteId: string }>) => (
-          <Instruments projectId={projectId} siteId={siteId} />
-        )}
+          }: RouteComponentProps<{ siteId: string }>) => {
+            return (
+              <MeasurementsListing
+                projectId={projectId}
+                siteId={siteId}
+                instrumentId={`${projectId}_${siteId}_measurements`}
+              />
+            )
+          }
+        }
       />
     </Switch>
   );

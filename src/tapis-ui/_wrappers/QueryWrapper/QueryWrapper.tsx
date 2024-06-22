@@ -4,12 +4,14 @@ import { LoadingSpinner, Message } from 'tapis-ui/_common';
 type QueryWrapperProps = React.PropsWithChildren<{
   isLoading: boolean;
   error: Error | null;
+  altMessage?: string;
   className?: string;
 }>;
 
 const QueryWrapper: React.FC<QueryWrapperProps> = ({
   isLoading,
   error,
+  altMessage,
   children,
   className = '',
 }) => {
@@ -25,7 +27,7 @@ const QueryWrapper: React.FC<QueryWrapperProps> = ({
     return (
       <div className={className}>
         <Message canDismiss={false} type="error" scope="inline">
-          {(error as any).message ?? error}
+          {altMessage ?? (error as any).message ?? error}
         </Message>
       </div>
     );
