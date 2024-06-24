@@ -10,7 +10,7 @@ const Router: React.FC = () => {
       <Route path="/login">
         <Login />
       </Route>
-      <ProtectedRoute path="/hawaii_mesonet">
+      <ProtectedRoute path="/mesonet">
         <Streams />
       </ProtectedRoute>
       <Redirect path="*" to="/mesonet"></Redirect>

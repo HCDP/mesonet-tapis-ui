@@ -28,7 +28,7 @@ const Layout: React.FC = () => {
           minHeight: '100vh',
         }}
       >
-        <PageLayout top={header}  right={workbenchContent} />
+        <PageLayout top={header} right={workbenchContent} />
       </div>
     </NotificationsProvider>
   );

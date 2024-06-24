@@ -29,7 +29,7 @@ const Router: React.FC<{ projectId: string; }> = ({
               <MeasurementsListing
                 projectId={projectId}
                 siteId={siteId}
-                instrumentId={siteId}
+                instrumentId={`${projectId}_${siteId}_measurements`}
               />
             )
           }

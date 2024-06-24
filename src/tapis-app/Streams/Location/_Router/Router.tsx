@@ -27,8 +27,7 @@ const Router: React.FC = () => {
           }: RouteComponentProps<{ location: string }>) => {
             return (
               <Sites
-                // location={location}
-                projectId={projects[location]}
+                projectId={projects[location].project}
               />
             )
           }
