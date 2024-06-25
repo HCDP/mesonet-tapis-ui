@@ -6,16 +6,15 @@ import { Streams } from '@tapis/tapis-typescript';
 import Variables from '../_components/Variables';
 import Toolbar from '../_components/Toolbar';
 import styles from './Layout.module.scss';
+import { Moment } from 'moment-timezone';
+import { getNow } from 'utils/timeFormat';
 
 const Layout: React.FC<{
   projectId: string;
   siteId: string;
   instrumentId: string;
-  start?: Date;
-  end?: Date;
-  limit?: number;
-  offset?: number;
-}> = ({ projectId, siteId, instrumentId }) => {
+  location: string;
+}> = ({ projectId, siteId, instrumentId, location }) => {
   let listVarPayload: Streams.ListVariablesRequest = {
     projectId,
     siteId,
@@ -30,12 +29,12 @@ const Layout: React.FC<{
 
   const variables = listVarData.data?.result ?? [];
 
-  const [start, setStart] = useState<Date | undefined>(() => {
-    const now = new Date();
-    now.setHours(now.getHours() - 12);
+  const [start, setStart] = useState<Moment | undefined>(() => {
+    const now = getNow(location);
+    now.subtract(12, "hours");
     return now;
   });
-  const [end, setEnd] = useState<Date | undefined>(() => new Date());
+  const [end, setEnd] = useState<Moment | undefined>(() => getNow(location));
 
   const [limit, setLimit] = useState<number | undefined>(undefined);
   const [offset, setOffset] = useState<number | undefined>(undefined);
@@ -47,6 +46,7 @@ const Layout: React.FC<{
           Station {getSiteData.data?.result?.site_id}, {getSiteData.data?.result?.site_name}
         </div>
         <Toolbar
+          location={location}
           start={start}
           end={end}
           setStart={setStart}
@@ -55,6 +55,7 @@ const Layout: React.FC<{
           setOffset={setOffset}
         />
         <Variables
+          location={location}
           variables={variables}
           projectId={projectId}
           siteId={siteId}

@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import styles from './Toolbar.module.scss';
+import { Moment } from 'moment-timezone';
+import { date2Moment, getNow, moment2Date } from 'utils/timeFormat';
 
 const Toolbar: React.FC<{
-  start: Date | undefined;
-  end: Date | undefined;
-  setStart: (start: Date) => void;
-  setEnd: (end: Date) => void;
+  location: string;
+  start: Moment | undefined;
+  end: Moment | undefined;
+  setStart: (start: Moment) => void;
+  setEnd: (end: Moment) => void;
   setLimit: (limit: number | undefined) => void;
   setOffset: (offset: number | undefined) => void;
-}> = ({ setStart, setEnd, setLimit, setOffset, start, end }) => {
+}> = ({ setStart, setEnd, setLimit, setOffset, start, end, location }) => {
   const [limitInput, setLimitInput] = useState<string>('');
   const [offsetInput, setOffsetInput] = useState<string>('');
 
@@ -52,13 +55,13 @@ const Toolbar: React.FC<{
       <div className={styles['control']}>
         Start Date
         <div>
-          <DateTimePicker onChange={setStart} value={start} />
+          <DateTimePicker onChange={(date: Date) => setStart(date2Moment(date, location))} value={moment2Date(start!)} />
         </div>
       </div>
       <div className={styles['control']}>
         End Date
         <div>
-          <DateTimePicker onChange={setEnd} value={end} />
+          <DateTimePicker onChange={(date: Date) => setEnd(date2Moment(date, location))} value={moment2Date(end!)} />
         </div>
       </div>
       <div className={styles['control']}>
@@ -85,7 +88,7 @@ const Toolbar: React.FC<{
           />
         </div>
       </div>
-      <button onClick={() => setEnd(new Date())} title="Refresh to display data up until your current time">Refresh Latest Data</button>
+      <button onClick={() => setEnd(getNow(location))} title="Refresh to display data up until your current time">Refresh Latest Data</button>
     </div>
   );
 };

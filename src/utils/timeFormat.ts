@@ -1,69 +1,38 @@
-/**
- * Create a string representation of date using internal standard
- * @param {Date} dateTime - A date object
- * @returns {string}
- */
-export function formatDate(dateTime: Date) {
-  return dateTime.toLocaleDateString('en-US', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  });
+import moment, { Moment } from "moment-timezone";
+
+const tzMap: {[location: string]: string} = {
+  hawaii: "Pacific/Honolulu",
+  american_samoa: "Pacific/Pago_Pago"
 }
 
-/**
- * Create a string representation of time using internal standard
- * @param {Date} dateTime - A date object
- * @returns {string}
- */
-export function formatTime(dateTime: Date) {
-  return dateTime.toLocaleTimeString('en-US', {
-    hour12: false,
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+export function date2Moment(date: Date, location: string): Moment {
+  return moment(date).tz(getTZ(location), true);
 }
 
-export function date2hst(date: Date): string {
-  let dc = new Date(date);
-  dc.setHours(date.getHours() - 10);
-  let isoString = dc.toISOString().slice(0, -1) + "-10:00";
-  return isoString;
+export function moment2Date(moment: Moment): Date {
+  return new Date(moment.format("YYYY-MM-DD HH:mm:ss"));
 }
 
-export function utc2hst(timestamp: string): string {
-  let date = new Date(timestamp);
-  let isoString = date2hst(date);
-  return isoString;
+export function getNow(location: string) {
+  return moment().tz(getTZ(location));
 }
 
-export function hst2utc(timestamp: string): string {
-  let date = new Date(timestamp);
-  let isoString = date.toISOString();
-  return isoString;
+export function getTZ(location: string): string {
+  return tzMap[location];
 }
 
-/**
- * Create a string representation of date and time using internal standard
- * @param {Date} dateTime - A date object
- * @returns {string}
- */
-export function formatDateTime(dateTime: Date) {
-  return `${formatDate(dateTime)} ${formatTime(dateTime)}`;
+export function getTZAbbreviation(location: string): string {
+  return moment().tz(getTZ(location)).format("z");
 }
 
-/**
- * A standard-format date string or UNIX timestamp
- * @typedef {string|number} DateTimeValue
- * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date
- */
-/**
- * Create a string representation of date/time using internal standard
- * @param {DateTimeValue} dateTimeValue - A single value date-time representation
- * @returns {string}
- */
-export function formatDateTimeFromValue(dateTimeValue: Date) {
-  const date = new Date(dateTimeValue);
+export function timestamp2Moment(location: string, timestamp: string): Moment {
+  return moment(timestamp).tz(getTZ(location));
+}
 
-  return formatDateTime(date);
+export function formatDate(date: Moment): string {
+  return date.format("YYYY-MM-DD HH:mm:ss z");
+}
+
+export function localizeTimestamp(location: string, timestamp: string): string {
+  return formatDate(timestamp2Moment(location, timestamp));
 }

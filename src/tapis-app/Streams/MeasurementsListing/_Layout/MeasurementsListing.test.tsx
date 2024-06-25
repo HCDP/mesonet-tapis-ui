@@ -22,6 +22,7 @@ describe('MeasurementsList', () => {
 
     const { getAllByText } = renderComponent(
       <MeasurementsListing
+        location="hawaii"
         projectId={project.project_name!}
         siteId={site.site_name!}
         instrumentId={instrument.inst_name!}

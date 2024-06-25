@@ -5,17 +5,20 @@ import styles from './Variables.module.scss';
 import { QueryWrapper } from 'tapis-ui/_wrappers';
 import { Streams } from '@tapis/tapis-typescript';
 import DownloadVariables from '../DownloadVariables';
+import { Moment } from 'moment-timezone';
+import { v4 as uuidv4 } from 'uuid';
 
 const Variables: React.FC<{
+  location: string;
   variables: Streams.Variable[]
   projectId: string;
   siteId: string;
   instrumentId: string;
-  start?: Date;
-  end?: Date;
+  start?: Moment;
+  end?: Moment;
   limit?: number;
   offset?: number;
-}> = ({ projectId, siteId, instrumentId, start, end, limit, offset, variables }) => {
+}> = ({ projectId, siteId, instrumentId, start, end, limit, offset, variables, location }) => {
 
   let variableMap: {[varID: string]: Streams.Variable} = {}
   for(let variable of variables) {
@@ -57,6 +60,7 @@ const Variables: React.FC<{
           <>
             <div className={styles['download-all-button']}>
               <DownloadVariables
+                location={location}
                 variables={variableIDs}
                 measurements={measurements}
                 fileName={instrumentId}
@@ -67,8 +71,9 @@ const Variables: React.FC<{
                 let variableMeasurements = measurements[varID];
                 const { unit, var_name } = variableMap[varID];
                 return (
-                  <div className={styles['measurements-list']}>
+                  <div key={uuidv4()} className={styles['measurements-list']}>
                     <Measurements
+                      location={location}
                       unit={unit}
                       key={varID!}
                       id={varID!}

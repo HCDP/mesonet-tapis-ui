@@ -8,9 +8,10 @@ import {
 import MeasurementsListing from '../../MeasurementsListing';
 import { SitesNav } from '../_components';
 
-const Router: React.FC<{ projectId: string; }> = ({
-  projectId
-}) => {
+const Router: React.FC<{ 
+  projectId: string;
+  location: string;
+}> = ({ projectId, location }) => {
   const { path } = useRouteMatch();
 
   return (
@@ -27,6 +28,7 @@ const Router: React.FC<{ projectId: string; }> = ({
           }: RouteComponentProps<{ siteId: string }>) => {
             return (
               <MeasurementsListing
+                location={location}
                 projectId={projectId}
                 siteId={siteId}
                 instrumentId={`${projectId}_${siteId}_measurements`}

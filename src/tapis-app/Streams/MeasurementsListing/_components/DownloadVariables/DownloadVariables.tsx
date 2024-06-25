@@ -1,12 +1,18 @@
+import { localizeTimestamp } from 'utils/timeFormat';
 import styles from './DownloadVariables.module.scss';
 import { useState } from 'react';
 
-const download = (variables: string[], measurements: { [key: string]: any; }, fileName: string, format: string) => {
+const download = (variables: string[], measurements: { [key: string]: any; }, fileName: string, format: string, location: string) => {
   let stringified = "";
   let extracted: { [key: string]: any; } = {};
   for (let variable of variables) {
-    extracted[variable] = measurements[variable];
+    extracted[variable] = {};
+    //localize timestamps
+    for(let timestamp in measurements[variable]) {
+      extracted[variable][localizeTimestamp(location, timestamp)] = measurements[variable][timestamp];
+    }
   }
+  
   const lformat = format.toLowerCase();
   if (format === "JSON") {
     stringified = JSON.stringify(extracted);
@@ -17,10 +23,10 @@ const download = (variables: string[], measurements: { [key: string]: any; }, fi
     // get values (measurements[date][variable])
     // store into array of arrays: key, date, value
     const CSVarr = [];
-    for (let variable of variables) {
-      const dates = Object.keys(measurements[variable]);
+    for (let variable in extracted) {
+      const dates = Object.keys(extracted[variable]);
       for (let date of dates) {
-        CSVarr.push([variable, date, measurements[variable][date]]);
+        CSVarr.push([variable, date, extracted[variable][date]]);
       }
     }
     stringified = CSVarr.map((row: any[]) => {
@@ -40,6 +46,7 @@ const download = (variables: string[], measurements: { [key: string]: any; }, fi
 }
 
 const DownloadVariables: React.FC<{
+  location: string;
   variables: string[];
   measurements: {
     [key: string]: any;
@@ -47,12 +54,12 @@ const DownloadVariables: React.FC<{
   fileName: string;
   title?: string;
   text?: string;
-}> = ({ variables, measurements, fileName, title, text }) => {
+}> = ({ variables, measurements, fileName, title, text, location }) => {
   const [ format, setFormat ] = useState('CSV');
   return (
     <div className={styles['wrapper']}>
       <button
-        onClick={() => download(variables, measurements, fileName, format)}
+        onClick={() => download(variables, measurements, fileName, format, location)}
         title={title ? title : `Download ${variables.length === 1 ? "this variable" : "all selected variables"} as a single ${format} file`}
       >
         {text}

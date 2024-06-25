@@ -4,33 +4,24 @@ import { v4 as uuidv4 } from 'uuid';
 import MeasurementsPlot from '../MeasurementsPlot';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { formatDateTime, utc2hst } from 'utils/timeFormat';
+import { formatDate, getTZAbbreviation, timestamp2Moment } from 'utils/timeFormat';
 import DownloadVariables from '../DownloadVariables';
 
-type MeasurementsType = { [datetime: string]: number };
-
-function convert(measurements: MeasurementsType): MeasurementsType {
-  let converted: MeasurementsType  = {};
-  for(let timestamp in measurements) {
-    converted[utc2hst(timestamp)] = measurements[timestamp];
-  }
-  return converted;
-}
-
 const Measurements: React.FC<{
+  location: string;
   unit: string | undefined;
   variable: string;
   graphWidth: number;
   id: string;
   downloadName:string,
   measurements: { [datetime: string]: number };
-}> = ({ variable, graphWidth, id, measurements, unit, downloadName }) => {
+}> = ({ variable, graphWidth, id, measurements, unit, downloadName, location }) => {
   let plotlyLayout: Partial<Plotly.Layout> = {
     width: graphWidth,
     height: 600,
     xaxis: {
       title: {
-        text: "Timestamp"
+        text: `Timestamp (${getTZAbbreviation(location)})`
       }
     },
     yaxis: {
@@ -40,12 +31,6 @@ const Measurements: React.FC<{
     }
   };
   
-
-  const [hstMeasurements, setHstMeasurements] = useState<{ [datetime: string]: number }>({});
-  useEffect(() => {
-    let hstMeasurements = convert(measurements);
-    setHstMeasurements(hstMeasurements)
-  }, [measurements])
 
   const [showVariable, setShowVariable] = useState<boolean>(true);
   const [measurementsList, setMeasurementsList] = useState<JSX.Element[]>([]);
@@ -60,9 +45,9 @@ const Measurements: React.FC<{
   const [variableLabel, setVariableLabel] = useState<string>('');
 
   useEffect(() => {
-    let fullMeasurements = Object.entries(hstMeasurements).map(
+    let fullMeasurements = Object.entries(measurements).map(
       (entry: [string, number]) => {
-        let date = formatDateTime(new Date(entry[0]));
+        let date = formatDate(timestamp2Moment(location, entry[0]));
         return (
           <tr key={uuidv4()}>
             <td>{date}</td>
@@ -89,7 +74,7 @@ const Measurements: React.FC<{
     );
     setFullMeasurementsList(fullMeasurements);
     setCollapsedMeasurementsList(collapsedMeasurements);
-  }, [measurements, measurementsCollapsed, hstMeasurements]);
+  }, [measurements, measurementsCollapsed, location]);
 
   useEffect(() => {
     let capitalizedVariable = `${variable
@@ -133,6 +118,7 @@ const Measurements: React.FC<{
         </div>
         <div className={styles['download-variable-button']} onClick={stopProp}>
           <DownloadVariables
+            location={location}
             variables={[id]}
             measurements={fileMeasurements}
             fileName={downloadName}
@@ -149,15 +135,16 @@ const Measurements: React.FC<{
         }
       >
         <div>
-          <MeasurementsPlot 
-            measurements={hstMeasurements}
+          <MeasurementsPlot
+            location={location}
+            measurements={measurements}
             layout={plotlyLayout} />
         </div>
         <div className={styles['variable-control']}>
           <table className={styles['measurements-list']} onClick={toggleMeasurements}>
             <thead>
               <tr key={uuidv4()}>
-                <th>Date-time</th>
+                <th>Time</th>
                 <th>Value {unit ? `(${unit})` : ""}</th>
               </tr>
             </thead>
