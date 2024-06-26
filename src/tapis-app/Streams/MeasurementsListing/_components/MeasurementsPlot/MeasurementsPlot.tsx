@@ -1,7 +1,7 @@
 import React from 'react';
 import Plotly from 'plotly.js';
 import createPlotlyComponent from 'react-plotly.js/factory';
-import { timestamp2Date, timestamp2Moment } from 'utils/timeFormat';
+import { timestamp2Date } from 'utils/timeFormat';
 
 //prevent Plotly memory issues with certain versions of node by using createPlotlyComponent instead of importing Plot from react-plotly.js directly
 const Plot = createPlotlyComponent(Plotly);
