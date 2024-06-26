@@ -36,3 +36,7 @@ export function formatDate(date: Moment): string {
 export function localizeTimestamp(location: string, timestamp: string): string {
   return formatDate(timestamp2Moment(location, timestamp));
 }
+
+export function timestamp2Date(location: string, timestamp: string): Date {
+  return moment2Date(timestamp2Moment(location, timestamp));
+}
